@@ -24,7 +24,7 @@ var (
 	// DisableAccountMetricsFlag disables the prometheus metrics for validator accounts, default false.
 	DisableAccountMetricsFlag = &cli.BoolFlag{
 		Name: "disable-account-metrics",
-		Usage: `Disables prometheus metrics for validator accounts. Operators with high volumes 
+		Usage: `Disables prometheus metrics for validator accounts. Operators with high volumes
 		of validating keys may wish to disable granular prometheus metrics as it increases
 		the data cardinality.`,
 	}
@@ -299,6 +299,15 @@ var (
 		Usage: "Comma separated list of public keys OR an external url endpoint for the validator to retrieve public keys from for usage with web3signer.",
 	}
 
+	// Web3SignerURLFlag defines the URL for a web3signer to connect to.
+	// example:--validators-external-signer-url=http://localhost:9000
+	// web3signer documentation can be found in Consensys' web3signer project docs
+	Web3SignerTransportConfig = &cli.StringFlag{
+		Name:  "validators-external-signer-transport-config",
+		Usage: "HTTP Transport config consensys' web3signer software to use with the Prysm validator client.",
+		Value: "{}",
+	}
+
 	// KeymanagerKindFlag defines the kind of keymanager desired by a user during wallet creation.
 	KeymanagerKindFlag = &cli.StringFlag{
 		Name:  "keymanager-kind",
@@ -349,7 +358,7 @@ var (
 		Name: "suggested-fee-recipient",
 		Usage: `Sets ALL validators' mapping to a suggested eth address to receive gas fees when proposing a block.
 		Note that this is only a suggestion when integrating with a Builder API, which may choose to specify
-		a different fee recipient as payment for the blocks it builds.For additional setting overrides use the 
+		a different fee recipient as payment for the blocks it builds.For additional setting overrides use the
 		--` + ProposerSettingsFlag.Name + " or --" + ProposerSettingsURLFlag.Name + " flags.",
 		Value: params.BeaconConfig().EthBurnAddressHex,
 	}

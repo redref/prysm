@@ -518,6 +518,7 @@ func Web3SignerConfig(cliCtx *cli.Context) (*remoteweb3signer.SetupConfig, error
 		}
 		web3signerConfig = &remoteweb3signer.SetupConfig{
 			BaseEndpoint:          u.String(),
+			TransportConfig:       cliCtx.String(flags.Web3SignerTransportConfig.Name),
 			GenesisValidatorsRoot: nil,
 		}
 		if cliCtx.IsSet(flags.WalletPasswordFileFlag.Name) {

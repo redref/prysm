@@ -28,6 +28,7 @@ import (
 // Web3Signer contains one public keys option. Either through a URL or a static key list.
 type SetupConfig struct {
 	BaseEndpoint          string
+	TransportConfig       string
 	GenesisValidatorsRoot []byte
 
 	// Either URL or keylist must be set.
@@ -57,7 +58,7 @@ func NewKeymanager(_ context.Context, cfg *SetupConfig) (*Keymanager, error) {
 	if cfg.BaseEndpoint == "" || !bytesutil.IsValidRoot(cfg.GenesisValidatorsRoot) {
 		return nil, fmt.Errorf("invalid setup config, one or more configs are empty: BaseEndpoint: %v, GenesisValidatorsRoot: %#x", cfg.BaseEndpoint, cfg.GenesisValidatorsRoot)
 	}
-	client, err := internal.NewApiClient(cfg.BaseEndpoint)
+	client, err := internal.NewApiClient(cfg.BaseEndpoint, cfg.TransportConfig)
 	if err != nil {
 		return nil, errors.Wrap(err, "could not create apiClient")
 	}

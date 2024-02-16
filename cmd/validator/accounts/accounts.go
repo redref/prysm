@@ -161,6 +161,7 @@ var Commands = &cli.Command{
 				flags.BeaconRPCProviderFlag,
 				flags.Web3SignerURLFlag,
 				flags.Web3SignerPublicValidatorKeysFlag,
+				flags.Web3SignerTransportConfig,
 				flags.InteropNumValidators,
 				flags.InteropStartIndex,
 				cmd.GrpcMaxCallRecvMsgSizeFlag,

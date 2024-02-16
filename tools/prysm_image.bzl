@@ -1,4 +1,4 @@
-load("@rules_oci//oci:defs.bzl", "oci_image", "oci_image_index", "oci_push")
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_image_index", "oci_push", "oci_tarball")
 load("@rules_pkg//:pkg.bzl", "pkg_tar")
 load("//tools:multi_arch.bzl", "multi_arch")
 
@@ -30,6 +30,12 @@ def prysm_image_upload(
           "org.opencontainers.image.source": "https://github.com/prysmaticlabs/prysm",
         },
         tags = tags,
+    )
+
+    oci_tarball(
+        name = "oci_tarball",
+        image = ":oci_image",
+        repo_tags = tags,
     )
 
     multi_arch(

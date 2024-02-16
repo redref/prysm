@@ -47,7 +47,7 @@ type ApiClient struct {
 }
 
 // NewApiClient method instantiates a new ApiClient object.
-func NewApiClient(baseEndpoint string) (*ApiClient, error) {
+func NewApiClient(baseEndpoint string, transportConfig string) (*ApiClient, error) {
 	u, err := url.ParseRequestURI(baseEndpoint)
 	if err != nil {
 		return nil, errors.Wrap(err, "invalid format, unable to parse url")
@@ -55,9 +55,16 @@ func NewApiClient(baseEndpoint string) (*ApiClient, error) {
 	if u.Scheme == "" || u.Host == "" {
 		return nil, fmt.Errorf("web3signer url must be in the format of http(s)://host:port url used: %v", baseEndpoint)
 	}
+	transport := http.Transport{}
+	err = json.Unmarshal([]byte(transportConfig), &transport)
+	if err != nil {
+		return nil, errors.Wrap(err, "invalid format, unable to parse transportConfig as json")
+	}
 	return &ApiClient{
-		BaseURL:    u,
-		RestClient: &http.Client{},
+		BaseURL: u,
+		RestClient: &http.Client{
+			Transport: &transport,
+		},
 	}, nil
 }
 
